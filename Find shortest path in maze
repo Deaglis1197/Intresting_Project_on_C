@@ -1,0 +1,149 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define XE 6
+#define YE 12
+int maze[XE][YE] = { { 1,0,0,1,1,1,1,1,1,1,1,1 },
+						 { 1,0,1,1,0,0,0,0,0,0,0,1 },
+						 { 1,1,1,0,0,0,0,0,0,0,0,1 },
+						 { 1,0,1,1,1,1,0,0,0,0,0,1 },
+						 { 1,0,0,0,1,0,0,0,0,0,0,1 },
+						 { 1,1,1,1,1,0,0,0,0,0,0,1 },
+				
+													};
+int path[XE][YE] = { 0 };
+int trace[XE][YE] = { 0 };
+int a = 0;
+void findallpath(int x, int y, int z);
+void shortestpath(int x, int y, int z);
+
+
+int main()
+{
+
+	int i, j;
+
+	printf("Maze:\n");
+
+	for (i = 0;i < XE;i++)
+	{
+		for (j = 0;j < YE;j++)
+		{
+			printf("%d ", maze[i][j]);
+		}
+		printf("\n");
+	}
+
+	printf("\n");
+	if (maze[0][0] == 1)
+		findallpath(0, 0, 1);
+
+	if (trace[XE-1][YE-1] != 0)
+	{
+		shortestpath(0, 0, 1);
+		printf("Escape path:\n");
+
+		/*for (i = 0;i < XE;i++)
+		{
+			for (j = 0;j < YE;j++)
+			{
+				if (gittigiyol[i][j]<10)
+					printf(" %d ", gittigiyol[i][j]);
+				else
+					printf(" %d", gittigiyol[i][j]);
+			}
+			printf("\n");
+		}*/
+		for (i = 0;i < XE;i++)
+		{
+			for (j = 0;j < YE;j++)
+			{
+
+				printf("%d ", path[i][j]);
+			}
+			printf("\n");
+		}
+		printf("\nNumber of steps = %d\n", trace[XE-1][YE-1]);
+		
+	}
+	else
+	{
+		printf("Not find escape path!");
+	}
+
+	getch();
+
+	return 0;
+}
+void findallpath(int x, int y, int z)
+{      /*find escape part*/
+	if (x == XE-1 && y == YE-1)
+	{
+		trace[x][y] = z;
+	}
+	/*|Maze limit|-|1 on go way?| - |go in trace?| - |Number ıf steps|  -----------  |Find escape ?|*/
+	if (x < XE-1 && maze[x + 1][y] == 1 &&  (trace[x + 1][y] == 0 || trace[x + 1][y] > z) && (x != XE-1 || y != YE-1))/*down*/
+	{
+		trace[x][y] = z;
+		findallpath(x + 1, y, z + 1);
+	}
+	if (y < YE-1 && maze[x][y + 1] == 1 &&  (trace[x][y + 1] == 0 || trace[x][y + 1] > z) && (x != XE-1 || y != YE-1))/*right*/
+	{
+		trace[x][y] = z;
+		findallpath(x, y + 1, z + 1);
+	}
+
+	if (y > 0 && maze[x][y - 1] == 1 &&  (trace[x][y - 1] == 0 || trace[x][y - 1] > z) && (x != XE-1 || y != YE-1))/*left*/
+	{
+		trace[x][y] = z;
+		findallpath(x, y - 1, z + 1);
+	}
+	if (x > 0 && maze[x - 1][y] == 1 &&  (trace[x - 1][y] == 0 || trace[x - 1][y] > 0) && (x != XE-1 || y != YE-1))/*up*/
+	{
+		trace[x][y] = z;
+		findallpath(x - 1, y, z + 1);
+	}
+
+
+}
+void shortestpath(int x, int y, int z)
+{
+	int i, j;
+	
+	if (x == XE-1 && y == YE-1)
+	{
+		a = 1;
+	}
+
+	if (x < XE-1 && maze[x + 1][y] == 1 && a == 0 && (trace[x + 1][y] == (z + 1)))/*down*/
+	{
+		shortestpath(x + 1, y, z + 1);
+
+	}
+	if (y < YE-1 && maze[x][y + 1] == 1 && a == 0 && (trace[x][y + 1] == (z + 1)))/*right*/
+	{
+
+		shortestpath(x, y + 1, z + 1);
+
+	}
+
+	if (y > 0 && maze[x][y - 1] == 1 && a == 0 && (trace[x][y - 1] == (z + 1)))/*left*/
+	{
+
+		shortestpath(x, y - 1, z + 1);
+
+	}
+	if (x > 0 && maze[x - 1][y] == 1 && a == 0 && (trace[x - 1][y] == (z + 1)))/*up*/
+	{
+
+		shortestpath(x - 1, y, z + 1);
+
+	}
+	/*if find escape*/
+	if (a == 1)
+	{
+		path[x][y] = 1;
+
+	}
+
+}
+
