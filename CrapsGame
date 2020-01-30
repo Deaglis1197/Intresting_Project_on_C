@@ -1,0 +1,136 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include <time.h>
+
+int yazdir();
+void kurallar(void);
+int zar();
+void oyun();
+
+int main()
+{
+	srand(time(NULL));
+	int durum = 1;
+	while (durum == 1)
+	{
+		durum = yazdir();
+		if (durum == 3)
+		{
+			oyun();
+			durum = 1;
+		}
+		else if (durum == 1)
+		{
+			kurallar();
+		}
+	}
+
+	return 0;
+}
+
+int yazdir()
+{
+	int a = 0;
+	char c;
+	printf("    ######  #####     ##    #####   ######\n");
+	printf("    #       #    #   #  #   #    #  #     \n");
+	printf("    #       #    #  #    #  #    #  #     \n");
+	printf("    #       #####   ######  #####   ######\n");
+	printf("    #       #    #  #    #  #            #\n");
+	printf("    ######  #    #  #    #  #       ######\n\n");
+
+	printf("Enter number for choosing\n");
+	printf("   1. Start Game\n");
+	printf("   2. Learn game rules\n");
+	printf("   3. Exit\n");
+	while (a == 0)
+	{
+
+		scanf("%c", &c);
+
+		switch (c)
+		{
+		case '1':
+			a = 3;
+			break;
+		case '2':
+
+			a = 1;
+			system("CLS");
+			break;
+		case '3':
+			a = 2;
+			break;
+
+		}
+
+	}
+	system("CLS");
+	return a;
+
+}
+void kurallar(void)
+{
+	printf("7 ya da 11 ise oyuncu kazanir. 2 3 12 ise oyuncu kaybeder.\n(Buna craps denir!)Iki zarin toplam degeri yukaridakilerin \ndisinda bir deger ise(yani 4, 5, 6, 8, 9, 10) oyun su sekilde\ndevam eder:Oyuncu ayni sonucu buluncaya kadar zarlari tekrar atar.\nEger ayni sonucu bulamadan once oyuncu 7 atarsa (yani atilan iki\nzarin toplam degeri 7 olursa)oyuncu kaybeder. Eger 7 gelmeden\nonce oyuncu ayni sonucu tekrar atmayi basarirsa kazanir.");
+	printf("\n\n         Ana ekrana donmek icin bir tusa basin");
+	getch();
+	system("CLS");
+}
+int zar()
+{
+	return ((rand() % 6) + 1);
+}
+
+void oyun()
+{
+	int z1, z2,mem1,mem2,durum1=0,durum2=0;
+	while (durum1 == 0)
+	{
+	printf("Zar atmak icin bir tusa basin\n");
+	getch();
+	z1 = zar();
+	z2 = zar();
+	printf("Zarlariniz Zar 1 = %d Zar 2 = %d\n", z1, z2);
+	mem1 = z1;
+	mem2 = z2;
+	
+		if (mem1 + mem2 == 7 || mem1 + mem2 == 11)
+		{
+			printf("\nTebrikler oyunu kazandiniz !!!\n");
+			durum1 = 1;
+			durum2 = 1;
+		}
+		else if (mem1 + mem2 == 2 || mem1 + mem2 == 3 || mem1 + mem2 == 12)
+		{
+			printf("\nCRAPS !!! Malesef Oyunu kaybettiniz\n");
+			durum1 = 1;
+			durum2 = 1;
+		}
+		while (durum2 == 0)
+		{
+			printf("Zar atmak icin bir tusa basin\n");
+			getch();
+			z1 = zar();
+			z2 = zar();
+			printf("Zarlariniz Zar 1 = %d Zar 2 = %d\n", z1, z2);
+			if (z1 + z2 == 7)
+			{
+				printf("\nMalesef oyunu kaybettiniz\n");
+				durum2 = 1;
+				durum1 = 1;
+			}
+			else if (z1 + z2 == mem1 + mem2)
+			{
+				printf("\nTebrikler oyunu kazandiniz !!!\n");
+				durum2 = 1;
+				durum1 = 1;
+			}
+		}
+	}
+	printf("Ana menuye devam etmek icin bir tusa basiniz\n");
+	getch();
+	system("CLS");
+	
+
+}
