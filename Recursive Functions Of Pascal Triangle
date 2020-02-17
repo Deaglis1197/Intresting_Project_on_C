@@ -1,0 +1,24 @@
+#include <stdio.h>
+int pascalindex(int x, int y) {
+	if (x == y || y == 1)
+		return 1;
+	else
+		return pascalindex(x - 1, y - 1) + pascalindex(x - 1, y);
+}
+void pascalwriter(int x, int y, int lvl) {
+	if (y != lvl&&x != lvl) {
+		printf("%d ", pascalindex(x, y));
+		if (y == x) {
+			printf("\n");
+			pascalwriter(x + 1, 1, lvl);
+		}
+		else {
+			pascalwriter(x, y + 1, lvl);
+		}
+	}
+	return;
+}
+int main() {
+	pascalwriter(1,1,6);
+	getch();
+}
