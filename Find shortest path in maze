@@ -47,9 +47,9 @@ int main()
 			for (j = 0;j < YE;j++)
 			{
 				if (gittigiyol[i][j]<10)
-					printf(" %d ", gittigiyol[i][j]);
+					printf(" %d ", path[i][j]);
 				else
-					printf(" %d", gittigiyol[i][j]);
+					printf(" %d", path[i][j]);
 			}
 			printf("\n");
 		}*/
